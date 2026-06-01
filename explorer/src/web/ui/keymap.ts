@@ -6,7 +6,7 @@
  */
 
 export type KeyAction =
-  | "fire" | "pauseToggle"
+  | "fire" | "scrubPlayToggle" | "pauseToggle"
   | "stepInstr" | "stepDac" | "stepIrq"
   | "scrubBack" | "scrubFwd"
   | "speed0" | "speed1" | "speed2" | "speed3"
@@ -30,7 +30,9 @@ export interface KeyEnv {
 export function keyAction(key: string, mod: boolean, env: KeyEnv): KeyAction | null {
   if (mod || env.typing) return null;
   switch (key) {
-    case " ": return "fire";
+    // Live → Fire the current command.  Scrub → play/pause the tape loop
+    // (Fire is disabled while scrubbing, so Space is otherwise idle there).
+    case " ": return env.scrubbing ? "scrubPlayToggle" : "fire";
     // ←/→ "nudge time": seek the recording while scrubbing, else single-step
     // one instruction when paused live.  Left can't step backwards live.
     case "ArrowRight": return env.scrubbing ? "scrubFwd" : env.paused ? "stepInstr" : null;
@@ -59,7 +61,7 @@ export function keyAction(key: string, mod: boolean, env: KeyEnv): KeyAction | n
 
 /** Shortcut reference, shown in the `?` overlay + documented in MANUAL.md. */
 export const KEY_HELP: ReadonlyArray<{ keys: string; label: string }> = [
-  { keys: "Space", label: "Fire the current command" },
+  { keys: "Space", label: "Fire the current command — or play/pause the tape while scrubbing" },
   { keys: "P", label: "Pause / Resume" },
   { keys: "← →", label: "Nudge time — scrub seek, or single-step when paused" },
   { keys: "↑ ↓", label: "Volume up / down" },

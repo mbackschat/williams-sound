@@ -13,8 +13,12 @@ import { keyAction, type KeyEnv } from "../src/web/ui/keymap.ts";
 const env = (o: Partial<KeyEnv> = {}): KeyEnv => ({ typing: false, scrubbing: false, paused: false, ...o });
 
 describe("keyAction", () => {
-  it("Space fires the current command", () => {
+  it("Space fires the current command in live mode", () => {
     expect(keyAction(" ", false, env())).toBe("fire");
+  });
+
+  it("Space toggles tape play/pause while scrubbing (Fire is disabled there)", () => {
+    expect(keyAction(" ", false, env({ scrubbing: true }))).toBe("scrubPlayToggle");
   });
 
   it("ignores every key while typing in an input/select", () => {

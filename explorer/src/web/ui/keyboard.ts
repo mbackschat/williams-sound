@@ -43,6 +43,7 @@ function appendKey(el: Element | null | undefined, key: string): void {
 
 function annotateShortcutTooltips(): void {
   appendKey(els.fire, "Space");
+  appendKey(els.scrubPlay, "Space");
   appendKey(els.pause, "P");
   appendKey(els.step, "→ when paused");
   appendKey(els.stepDac, "D");
@@ -87,6 +88,7 @@ function cycleGame(): void {
 function dispatch(a: KeyAction, ctx: AppContext): void {
   switch (a) {
     case "fire": els.fire.click(); return;
+    case "scrubPlayToggle": els.scrubPlay.click(); return;
     case "pauseToggle": els.pause.click(); return;
     case "stepInstr": els.step.click(); return;
     case "stepDac": els.stepDac.click(); return;

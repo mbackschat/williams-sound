@@ -87,7 +87,7 @@ Global shortcuts (ignored while you're typing in the hex box or a dropdown — p
 
 | Key | Action |
 |---|---|
-| <kbd>Space</kbd> | Fire the current command (replay) |
+| <kbd>Space</kbd> | Fire the current command (replay) — or play/pause the tape while scrubbing |
 | <kbd>P</kbd> | Pause / Resume |
 | <kbd>←</kbd> <kbd>→</kbd> | Nudge time — seek while scrubbing, single-step one instruction when paused |
 | <kbd>↑</kbd> <kbd>↓</kbd> | Volume up / down |
