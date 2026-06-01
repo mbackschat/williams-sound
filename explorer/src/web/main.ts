@@ -46,6 +46,7 @@ import { initParamSliders } from "./ui/paramSliders.ts";
 import { initEngineToggles } from "./ui/engineToggles.ts";
 import { initGlossaryUi } from "./ui/glossaryUi.ts";
 import { initKeyboard } from "./ui/keyboard.ts";
+import { setShortcutTitle } from "./ui/shortcutTitle.ts";
 import { initModeToggle } from "./ui/modeToggle.ts";
 import { ORGAN_TUNES, DEFAULT_ORGAN_TUNE, AUTO_PULSE_GAP_MS } from "./organTunes.ts";
 import type { AppContext } from "./appContext.ts";
@@ -341,9 +342,9 @@ function setScrubSpeed(speed: number): void {
   currentScrubSpeed = speed;
   if (speed !== 0) lastNonZeroScrubSpeed = speed;
   els.scrubPlay.textContent = speed === 0 ? "▶" : "⏸";
-  els.scrubPlay.title = speed === 0
+  setShortcutTitle(els.scrubPlay, speed === 0
     ? `Play at ${lastNonZeroScrubSpeed}× (last used)`
-    : "Freeze the head (resumes at the same speed when clicked again)";
+    : "Freeze the head (resumes at the same speed when clicked again)");
   if (host) host.setScrubSpeed(speed);
 }
 

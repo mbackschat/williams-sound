@@ -8,6 +8,7 @@
 import { els } from "../els.ts";
 import type { AppContext } from "../appContext.ts";
 import { keyAction, KEY_HELP, type KeyAction } from "./keymap.ts";
+import { composeShortcutTitle } from "./shortcutTitle.ts";
 
 export function initKeyboard(ctx: AppContext): void {
   annotateShortcutTooltips();
@@ -35,10 +36,11 @@ export function initKeyboard(ctx: AppContext): void {
  */
 function appendKey(el: Element | null | undefined, key: string): void {
   if (!el) return;
-  const cur = el.getAttribute("title") ?? "";
-  const tag = `[${key}]`;
-  if (cur.includes(tag)) return; // already annotated
-  el.setAttribute("title", cur ? `${cur}  ${tag}` : tag);
+  // Record the binding so runtime `.title` rewrites can re-apply it via
+  // `setShortcutTitle` — without this, a control whose title changes (e.g. the
+  // scrub Play/Freeze toggle) silently loses its `[Key]` tag.
+  (el as HTMLElement).dataset.shortcut = key;
+  el.setAttribute("title", composeShortcutTitle(el.getAttribute("title") ?? "", key));
 }
 
 function annotateShortcutTooltips(): void {
